@@ -2,7 +2,7 @@
 /__pycache__/
 /build/
 /dist/
-db.sqlite3
+/db.sqlite3
 
 [build-system]
 requires = ["setuptools>=45", "wheel"]
