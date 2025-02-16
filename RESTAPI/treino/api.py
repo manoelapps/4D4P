@@ -75,7 +75,7 @@ def aulas_concluidas(request, aulas_concluidas: AulasConcluidasSchema):
 
         ac.save()
 
-    return "Aulas concluidas registradas com sucesso."
+    return f"Aulas registradas com sucesso para o aluno {aluno.nome}"
 
 @treino_router.put('/aluno_update/{aluno_id}', response={200: AlunosSchema})
 def aluno_update(request, aluno_id: int, aluno_data: AlunosSchema):

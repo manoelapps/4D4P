@@ -95,3 +95,6 @@ def consulta_publica(request, id):
     view.save()
 
     return render(request, 'consulta_publica.html', {'consulta': consulta})
+
+def teste(request):
+    return HttpResponse('Ola mundo')

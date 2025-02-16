@@ -6,7 +6,7 @@ from datetime import date
 class AlunosSchema(ModelSchema):
     class Meta:
         model = Alunos
-        fields = ['nome', 'email', 'faixa', 'data_nascimento']
+        fields = ['id', 'nome', 'email', 'faixa', 'data_nascimento']
 
 class ProgressoAlunoSchema(Schema):
     email: str
