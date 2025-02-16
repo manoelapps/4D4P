@@ -3,6 +3,8 @@
 /build/
 /dist/
 /db.sqlite3
+database.db
+*.pyc
 
 [build-system]
 requires = ["setuptools>=45", "wheel"]
