@@ -8,4 +8,5 @@ urlpatterns = [
     path('atualizar_paciente/<int:id>', views.atualizar_paciente, name="atualizar_paciente"),
     path('excluir_consulta/<int:id>', views.excluir_consulta, name="excluir_consulta"),
     path('consulta_publica/<int:id>', views.consulta_publica, name="consulta_publica"),
+    path('atualizar_faltas_paciente/<int:id>', views.atualizar_faltas_paciente, name="atualizar_faltas_paciente"),
 ]

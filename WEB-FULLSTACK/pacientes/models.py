@@ -15,6 +15,7 @@ class Pacientes(models.Model):
     queixa = models.CharField(max_length=4, choices=queixa_choices, default='TDAH')
     foto = models.ImageField(upload_to='fotos')
     pagamento_em_dia = models.BooleanField(default=True)
+    faltas = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.nome
@@ -41,6 +42,7 @@ class Consultas(models.Model):
     tarefas = models.ManyToManyField(Tarefas)
     paciente = models.ForeignKey(Pacientes, on_delete=models.CASCADE)
     data = models.DateTimeField(auto_now_add=True)
+    
 
     def __str__(self):
         return self.paciente.nome

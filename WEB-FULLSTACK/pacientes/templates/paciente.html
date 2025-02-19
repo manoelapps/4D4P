@@ -21,24 +21,64 @@
 
         <div class="py-14 sm:py-14">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <div class="mx-auto max-w-2xl lg:mx-0">
-                <img class="size-16 rounded-full" src="{{paciente.foto.url}}" alt="">
-                <p class="mt-4 text-pretty text-4xl font-semibold tracking-tight text-gray-800 sm:text-4xl">{{paciente.nome}}</p>
-                <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">{{total_consultas}} sessões realizadas</span>
-                <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-700/10">2 Faltas</span>
-                
-                <form action="{% url 'atualizar_paciente' paciente.id %}" method="POST"> {% csrf_token %}
-                    <select name="pagamento_em_dia" class="block w-1/3 mt-4 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                        <option value="ativo" {% if paciente.pagamento_em_dia %}selected{% endif %}>Ativo</option>
-                        <option value="inativo" {% if not paciente.pagamento_em_dia %}selected{% endif %}>Inativo</option>
-                    </select>
-                    <button type="submit" class="inline-flex justify-center rounded-md bg-indigo-600 mt-4 cursor-pointer px-3 py-2  w-1/3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Atualizar</button>
-                </form>
+                <div class="mx-auto max-w-2xl lg:mx-0">
+                    <img class="size-16 rounded-full" src="{{paciente.foto.url}}" alt="">
+                    <p class="mt-4 text-pretty text-4xl font-semibold tracking-tight text-gray-800 sm:text-4xl">{{paciente.nome}}</p>
+                    <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">{{total_consultas}} sessões realizadas</span>
+                    <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-700/10">{{paciente.faltas}} Faltas</span>
+                    
+                    <form action="{% url 'atualizar_paciente' paciente.id %}" method="POST"> {% csrf_token %}
+                        <select name="pagamento_em_dia" class="block w-1/3 mt-4 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                            <option value="ativo" {% if paciente.pagamento_em_dia %}selected{% endif %}>Ativo</option>
+                            <option value="inativo" {% if not paciente.pagamento_em_dia %}selected{% endif %}>Inativo</option>
+                        </select>
+                        <button type="submit" class="inline-flex justify-center rounded-md bg-indigo-600 mt-4 cursor-pointer px-3 py-2  w-1/3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Atualizar</button>
+                    </form>
 
-            </div>
+                </div>
+                <br>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md" data-modal-target="marcarFaltaModal" data-modal-toggle="marcarFaltaModal">
+                    Adicionar Falta
+                </button>
             </div>
         </div>
-        
+
+        <!-- Modal Trigger -->
+
+        <!-- Modal -->
+        <div id="marcarFaltaModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-gray-800 bg-opacity-50">
+            <div class="flex items-center justify-center min-h-screen">
+                <!-- Modal Content -->
+                <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+                    <!-- Modal Header -->
+                    <div class="flex justify-between items-center px-6 py-4 border-b">
+                        <h5 class="text-lg font-medium text-gray-900">Adicionar Falta</h5>
+                        <button type="button" class="text-gray-400 hover:text-gray-500 focus:outline-none" data-modal-dismiss="marcarFaltaModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <form action="{% url 'atualizar_faltas_paciente' paciente.id %}" method="POST" enctype="multipart/form-data" class="px-6 py-4">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="faltas" class="block text-sm font-medium text-gray-700">Número de Faltas:</label>
+                            <input type="number" name="faltas" id="faltas" value="0" min="0"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
+                        <div class="flex justify-end space-x-2">
+                            <button type="button" class="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none"
+                                data-modal-dismiss="marcarFaltaModal">Cancelar</button>
+                            <button type="submit"
+                                class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none">Registrar Falta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="bg-slate-50 h-screen border-t-1 border-slate-200 ">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-6">
                 <div class="grid grid-cols-3 gap-4">
@@ -143,6 +183,23 @@
             }
             }
         }
+        });
+
+        // Toggle modal visibility
+        document.querySelectorAll('[data-modal-toggle]').forEach(button => {
+            button.addEventListener('click', () => {
+                const modalId = button.getAttribute('data-modal-target');
+                const modal = document.getElementById(modalId);
+                modal.classList.toggle('hidden');
+            });
+        });
+
+        // Close modal
+        document.querySelectorAll('[data-modal-dismiss]').forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.fixed');
+                modal.classList.add('hidden');
+            });
         });
     </script>
 

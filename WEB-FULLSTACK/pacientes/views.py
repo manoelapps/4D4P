@@ -47,14 +47,22 @@ def atualizar_paciente(request, id):
     paciente.save()
     return redirect(f'/pacientes/{id}')
 
+def atualizar_faltas_paciente(request, id):
+    paciente = Pacientes.objects.get(id=id)
+    num_faltas = int(request.POST.get('faltas', 0))
+    paciente.faltas += num_faltas
+    paciente.save()
+    return redirect(f'/pacientes/{id}')
+
 def paciente_view(request, id):
     paciente = Pacientes.objects.get(id=id)
     if request.method == "GET":
         consultas = Consultas.objects.filter(paciente=paciente)
+        total_consultas = consultas.count()
         tuple_grafico = ([str(i.data) for i in consultas], [str(i.humor) for i in consultas])
         tarefas = Tarefas.objects.all()
         return render(request, 'paciente.html', {'tarefas': tarefas, 'paciente': paciente, 
-                                                 'consultas': consultas, 'tuple_grafico': tuple_grafico})
+                                                 'consultas': consultas, 'tuple_grafico': tuple_grafico, 'total_consultas': total_consultas})
     else:
         humor = request.POST.get('humor')
         registro_geral = request.POST.get('registro_geral')
